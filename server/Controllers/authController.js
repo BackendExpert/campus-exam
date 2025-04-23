@@ -34,7 +34,7 @@ const authControoler = {
 
             const checkuser = await User.findOne({
                 $or: [
-                    { indexNo: indexNo },
+                    { staffNo: staffno },
                     { username: username },
                     { email: email },
                 ]
@@ -92,7 +92,7 @@ const authControoler = {
 
             const checkpass = await bcrypt.compare(password, checkuser.password)
 
-            if(checkpass){
+            if(!checkpass){
                 return res.json({ Error: "Password Not Match..."})
             }
             if(checkuser.isActive === false){
