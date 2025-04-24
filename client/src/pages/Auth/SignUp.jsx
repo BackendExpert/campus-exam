@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const SignUp = () => {
+    const navigate = useNavigate()
     const [signupdata, setsignupdata] = useState({
         staffno: '',
         username: '',
@@ -19,14 +22,25 @@ const SignUp = () => {
     const headleSubmit = async (e) => {
         e.preventDefault()
         try{
-            const res = await
+            const res = await axios.post(import.meta.env.VITE_APP_API + '/auth/signup', signupdata)
+            .then(res => {
+                if(res.data.Status === "Success"){
+                    alert(res.data.Message)
+                    navigate('/')
+                }
+                else{
+                    alert(res.data.Error)
+                }
+            })
         }
         catch(err){
             console.log(err)
         }
     }
   return (
-    <div>SignUp</div>
+    <div>
+        
+    </div>
   )
 }
 
