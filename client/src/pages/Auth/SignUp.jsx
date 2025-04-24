@@ -102,6 +102,11 @@ const SignUp = () => {
                                     />
                                 </div>
                             </form>
+                            <div className="">
+                                <a href="/" className='text-blue-600 mt-4'>
+                                    Already have Account
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
