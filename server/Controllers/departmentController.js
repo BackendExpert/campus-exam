@@ -41,6 +41,34 @@ const DepartmentController = {
         catch(err){
             console.log(err)
         }
+    },
+
+    getalldepts: async(req, res) => {
+        try{
+            const alldepts = await Department.find()
+
+            return res.json({ Result: alldepts })
+        }
+        catch(err){
+            console.log(err)
+        }
+    },
+
+    getonedept: async(req, res) => {
+        try{
+            const id = req.params.id
+
+            const deptgetid = await Department.findOne({ code: id })
+
+            if(!deptgetid){
+                return res.json({ Error: "The Department is not Exists"})
+            }
+
+            return res.json({ Result: deptgetid })
+        }
+        catch(err){
+            console.log(err)
+        }
     }
 };
 
