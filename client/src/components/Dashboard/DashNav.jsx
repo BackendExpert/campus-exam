@@ -1,102 +1,106 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { FaUserCog } from 'react-icons/fa'
-import { FaGear, FaPowerOff } from 'react-icons/fa6'
+import React, { useState, useRef, useEffect } from 'react';
+import { FaUser, FaCog, FaCreditCard, FaQuestionCircle, FaTags, FaSignOutAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import secureLocalStorage from 'react-secure-storage'
 
 const DashNav = () => {
-    const [menu, setmenu] = useState(false)
-    const menuRef = useRef()
+    const [menu, setMenu] = useState(false);
+    const menuRef = useRef(null);
+    const navigate = useNavigate();
 
     const username = secureLocalStorage.getItem('loginU')
     const role = secureLocalStorage.getItem('loginR')
+    const email = secureLocalStorage.getItem('loginE')
 
     const toggleMenu = () => {
-        setmenu(!menu)
-    }
+        setMenu(!menu);
+    };
 
-    const headleLogout = () => {
+    const handleLogout = () => {
+        localStorage.removeItem("login");
         localStorage.clear()
-        window.location.reload()
-    }
+    };
 
-    // Close on outside click and Escape key
+    // Close menu if clicked outside
     useEffect(() => {
-        const handler = (e) => {
-            if (menuRef.current && !menuRef.current.contains(e.target)) {
-                setmenu(false)
+        const handler = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setMenu(false);
             }
-        }
-
-        const handleEscape = (e) => {
-            if (e.key === 'Escape') {
-                setmenu(false)
-            }
-        }
-
-        document.addEventListener('mousedown', handler)
-        document.addEventListener('keydown', handleEscape)
-
-        return () => {
-            document.removeEventListener('mousedown', handler)
-            document.removeEventListener('keydown', handleEscape)
-        }
-    }, [])
+        };
+        document.addEventListener('mousedown', handler);
+        return () => document.removeEventListener('mousedown', handler);
+    }, []);
 
     return (
-        <div className='bg-white py-5'>
-            <div className="flex justify-between">
-                <h1 className="pl-8">Dashboard</h1>
-                <div className="pr-8 flex cursor-pointer" onClick={toggleMenu}>
-                    <img src="https://avatars.githubusercontent.com/u/138636749?s=48&v=4" alt="" className='h-6 w-auto rounded-full' />
-                    <h1 className="text-sm pl-2 uppercase">{username}</h1>
-                </div>
-            </div>
+        <div className="bg-white py-4 px-6 shadow-md rounded-b-xl relative">
+            <div className="flex justify-between items-center">
+                {/* Left Side */}
+                <div className="">Dashboard</div>
 
-            <div
-                ref={menuRef}
-                className={`absolute bg-white right-4 top-20 w-72 rounded-2xl shadow-2xl py-6 px-5 transition-all duration-300 transform z-20
-                ${menu ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`}
-            >
-                <div className="text-center">
-                    <img
-                        src="https://avatars.githubusercontent.com/u/138636749?s=48&v=4"
-                        alt="profile"
-                        className="h-20 w-20 mx-auto rounded-full shadow-md border-2 border-gray-200"
-                    />
-                    <h1 className="pt-3 text-lg font-bold text-gray-800">{username}</h1>
-                    <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">{role}</p>
-                </div>
-
-                <div className="mt-5 border-t pt-4">
-                    <a
-                        href="/Dashboard/Profile"
-                        className="flex items-center gap-3 text-gray-600 hover:text-blue-600 hover:bg-gray-100 px-4 py-2 rounded-md transition"
-                    >
-                        <FaUserCog className="text-xl" />
-                        <span className="text-sm font-medium">Profile</span>
-                    </a>
-
-                    <a
-                        href="#"
-                        className="flex items-center gap-3 text-gray-600 hover:text-blue-600 hover:bg-gray-100 px-4 py-2 rounded-md transition mt-2"
-                    >
-                        <FaGear className="text-xl" />
-                        <span className="text-sm font-medium">Settings</span>
-                    </a>
-
-                    <div
-                        onClick={headleLogout}
-                        className="cursor-pointer flex items-center gap-3 text-gray-600 hover:text-blue-600 hover:bg-gray-100 px-4 py-2 rounded-md transition mt-2"
-                    >
-                        <FaPowerOff className="text-xl fill-red-500" />
-                        <span className="text-sm font-medium text-red-500">Logout</span>
+                {/* Right Side - Avatar and Menu */}
+                <div className="flex items-center gap-4">
+                    <div className="relative cursor-pointer" onClick={toggleMenu}>
+                        <img
+                            src="https://avatars.githubusercontent.com/u/138636749?v=4"
+                            alt="profile"
+                            className="h-10 w-10 rounded-full border-2 border-white shadow-md"
+                        />
+                        <span className="absolute bottom-0 right-0 h-3 w-3 bg-green-500 border-2 border-white rounded-full" />
                     </div>
+
+                    {/* Dropdown */}
+                    {menu && (
+                        <div
+                            ref={menuRef}
+                            className="absolute right-6 top-16 w-72 bg-white rounded-xl shadow-lg z-50 text-sm"
+                        >
+                            {/* Header */}
+                            <div className="flex items-center gap-4 p-4 border-b">
+                                <img
+                                    src="https://avatars.githubusercontent.com/u/138636749?v=4"
+                                    alt="User"
+                                    className="h-10 w-10 rounded-full border border-gray-300"
+                                />
+                                <div>
+                                    <h1 className="font-semibold text-gray-800">{username}</h1>
+                                    <p className="text-xs text-gray-500">{role}</p>
+                                </div>
+                            </div>
+
+                            {/* Menu Items */}
+                            <div className="p-2 space-y-1">
+                                <DropdownItem icon={<FaUser />} label="My Profile" />
+                                <DropdownItem icon={<FaCog />} label="Settings" />
+                                <DropdownItem icon={<FaCreditCard />} label="Billing" badge="4" />
+                                <DropdownItem icon={<FaQuestionCircle />} label="FAQ" />
+                                <DropdownItem icon={<FaTags />} label="Pricing" />
+                                <div onClick={handleLogout}>
+                                    <DropdownItem icon={<FaSignOutAlt />} label="Log Out" isLogout />
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
-
-
         </div>
-    )
-}
+    );
 
-export default DashNav
+};
+
+const DropdownItem = ({ icon, label, badge, isLogout }) => {
+    return (
+        <div className={`flex items-center justify-between px-4 py-2 rounded-lg cursor-pointer 
+        ${isLogout ? 'text-red-500 hover:bg-red-50' : 'text-gray-700 hover:bg-gray-100'} transition`}>
+            <div className="flex items-center gap-3">
+                <span className="text-base">{icon}</span>
+                <span>{label}</span>
+            </div>
+            {badge && (
+                <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">{badge}</span>
+            )}
+        </div>
+    );
+};
+
+export default DashNav;
