@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaBuildingColumns, FaPlus } from 'react-icons/fa6'
+import AllDepts from './AllDepts'
 
 const Departments = () => {
+    const [btnclick, setbtnclick] = useState('alldepts')
+
+    const headleclickvalue = (value) => {
+        setbtnclick(value)
+    }
+
     const deptdata = [
         {
             id: 1,
@@ -22,13 +29,14 @@ const Departments = () => {
     ]
     return (
         <div>
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid xl:grid-cols-4 gap-4">
                 {
                     deptdata.map((data, index) => {
                         return (
                             <div
                                 key={index}
                                 className="relative overflow-hidden bg-white shadow-lg hover:shadow-2xl rounded-2xl p-8 transition-all duration-300 transform hover:scale-105"
+                                onClick={() => headleclickvalue(data.btnvalue)}
                             >
                                 <div className="absolute top-0 right-0 z-20 mt-6 mr-6">
                                     <div className={`w-16 h-16 rounded-full flex items-center justify-center ${data.bg || 'bg-gradient-to-r from-teal-400 to-blue-500'} shadow-lg`}>
@@ -47,6 +55,25 @@ const Departments = () => {
                             </div>
                         )
                     })
+                }
+            </div>
+
+            <div className="mt-8">
+                {
+                    (() => {
+                        if(btnclick === "alldepts"){
+                            return (
+                                <div className="">
+                                    <AllDepts />
+                                </div>
+                            )
+                        }
+                        else if(btnclick === "createnewdept"){
+                            return (
+                                <div className="">cerate new dpe</div>
+                            )
+                        }
+                    })()
                 }
             </div>
         </div>
