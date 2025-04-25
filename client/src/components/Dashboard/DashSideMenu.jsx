@@ -42,24 +42,18 @@ const dashsidedata = [
     },
     {
         id: 7,
-        name: 'Exams',
-        link: '/Dashboard/Exams',
-        icon: FaClipboardList
-    },
-    {
-        id: 8,
         name: 'Results',
         link: '/Dashboard/Results',
         icon: FaTableList
     },
     {
-        id: 9,
+        id: 8,
         name: 'Users',
         link: '/Dashboard/Users',
         icon: FaUsers
     },
     {
-        id: 10,
+        id: 9,
         name: 'Profile',
         link: '/Dashboard/Profile',
         icon: FaUserCog
