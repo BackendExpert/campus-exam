@@ -64,30 +64,30 @@ const AdminDashData = () => {
                     </div>
                 </div>
                 <div className="xl:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-  {admindata.map((item) => (
-    <div
-      key={item.id}
-      className="relative overflow-hidden bg-white shadow-lg hover:shadow-2xl rounded-2xl p-8 transition-all duration-300 transform hover:scale-105"
-    >
-      {/* Stylish floating icon bubble */}
-      <div className="absolute top-0 right-0 z-20 mt-6 mr-6">
-        <div className={`w-16 h-16 rounded-full flex items-center justify-center ${item.bg || 'bg-gradient-to-r from-teal-400 to-blue-500'} shadow-lg`}>
-          <div className="text-white text-2xl">{item.icon}</div>
-        </div>
-      </div>
+                    {admindata.map((item) => (
+                        <div
+                            key={item.id}
+                            className="relative overflow-hidden bg-white shadow-lg hover:shadow-2xl rounded-2xl p-8 transition-all duration-300 transform hover:scale-105"
+                        >
+                            {/* Stylish floating icon bubble */}
+                            <div className="absolute top-0 right-0 z-20 mt-6 mr-6">
+                                <div className={`w-16 h-16 rounded-full flex items-center justify-center ${item.bg || 'bg-gradient-to-r from-teal-400 to-blue-500'} shadow-lg`}>
+                                    <div className="text-white text-2xl">{item.icon}</div>
+                                </div>
+                            </div>
 
-      {/* Text Content */}
-      <div className="relative z-10 mt-20">
-        <p className="uppercase tracking-wider text-xs font-semibold text-gray-500">{item.name}</p>
-        <h2 className="text-3xl font-extrabold text-gray-900 mt-2">{item.value}</h2>
-        <p className="text-sm mt-2 text-gray-600 italic">{item.subtext}</p>
-      </div>
+                            {/* Text Content */}
+                            <div className="relative z-10 mt-20">
+                                <p className="uppercase tracking-wider text-xs font-semibold text-gray-500">{item.name}</p>
+                                <h2 className="text-3xl font-extrabold text-gray-900 mt-2">{item.value}</h2>
+                                <p className="text-sm mt-2 text-gray-600 italic">{item.subtext}</p>
+                            </div>
 
-      {/* Bottom Border Gradient for Visual Pop */}
-      <div className={`absolute bottom-0 left-0 right-0 h-1 rounded-b-2xl ${item.bg || 'bg-gradient-to-r from-teal-500 to-blue-500'}`}></div>
-    </div>
-  ))}
-</div>
+                            {/* Bottom Border Gradient for Visual Pop */}
+                            <div className={`absolute bottom-0 left-0 right-0 h-1 rounded-b-2xl ${item.bg || 'bg-gradient-to-r from-teal-500 to-blue-500'}`}></div>
+                        </div>
+                    ))}
+                </div>
 
 
 

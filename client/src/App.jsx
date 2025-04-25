@@ -9,6 +9,7 @@ import SignIn from './pages/Auth/SignIn'
 import PrivateRoute from './components/Auth/PrivateRoute'
 import DashHome from './components/Dashboard/DashHome'
 import HomeDash from './pages/Dashboard/HomeDash'
+import Departments from './pages/Department/Departments'
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
 
                 <Route path='/Dashboard/' element={<PrivateRoute element={<DashHome /> } /> }>
                     <Route path='Home' element={<PrivateRoute element={<HomeDash /> } /> } />
+                    <Route path='Departments' element={<PrivateRoute element={<Departments /> } /> } />
                 </Route>          
             </Routes>
         </BrowserRouter>
