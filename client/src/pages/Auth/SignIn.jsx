@@ -27,7 +27,13 @@ const SignIn = () => {
                 .then(res => {
                     if (res.data.Status === "Success") {
                         alert(res.data.Message)
-                        navigate('/')
+                        localStorage.setItem("login", res.data.Token)
+                        secureLocalStorage.setItem("loginE", res.data.Result.email)
+                        secureLocalStorage.setItem("loginU", res.data.Result.username)
+                        secureLocalStorage.setItem("loginR", res.data.Result.role)
+                        localStorage.setItem("dashmenuID", 1)
+                        window.location.reload()
+                        navigate('/Dashboard/Home')
                     }
                     else {
                         alert(res.data.Error)
