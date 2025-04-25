@@ -1,8 +1,11 @@
 import React from 'react'
+import AdminDashData from './AdminDashData'
 
 const HomeDash = () => {
   return (
-    <div>HomeDash</div>
+    <div>
+        <AdminDashData />
+    </div>
   )
 }
 
