@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import DefultInput from '../../components/Forms/DefultInput'
 import DefultButton from '../../components/Buttons/DefultButton'
+import secureLocalStorage from 'react-secure-storage'
 
 const SignIn = () => {
     const navigate = useNavigate()
@@ -27,7 +28,13 @@ const SignIn = () => {
                 .then(res => {
                     if (res.data.Status === "Success") {
                         alert(res.data.Message)
-                        navigate('/')
+                        localStorage.setItem("login", res.data.Token)
+                        secureLocalStorage.setItem("loginE", res.data.Result.email)
+                        secureLocalStorage.setItem("loginU", res.data.Result.username)
+                        secureLocalStorage.setItem("loginR", res.data.Result.role)
+                        localStorage.setItem("dashmenuID", 1)
+                        window.location.reload()
+                        navigate('/Dashboard/Home')
                     }
                     else {
                         alert(res.data.Error)
