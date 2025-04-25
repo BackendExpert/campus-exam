@@ -17,8 +17,8 @@ const DashNav = () => {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem("login");
         localStorage.clear()
+        window.location.reload()
     };
 
     // Close menu if clicked outside
@@ -72,9 +72,7 @@ const DashNav = () => {
                             <div className="p-2 space-y-1">
                                 <DropdownItem icon={<FaUser />} label="My Profile" />
                                 <DropdownItem icon={<FaCog />} label="Settings" />
-                                <DropdownItem icon={<FaCreditCard />} label="Billing" badge="4" />
                                 <DropdownItem icon={<FaQuestionCircle />} label="FAQ" />
-                                <DropdownItem icon={<FaTags />} label="Pricing" />
                                 <div onClick={handleLogout}>
                                     <DropdownItem icon={<FaSignOutAlt />} label="Log Out" isLogout />
                                 </div>

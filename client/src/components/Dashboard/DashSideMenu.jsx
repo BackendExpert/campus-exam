@@ -1,7 +1,7 @@
-import { MdBedroomParent, MdDashboard, MdAdminPanelSettings } from "react-icons/md";
-import { FaSchool, FaUserGraduate , FaGear } from "react-icons/fa6";
-import { FaUserCog, FaUsers } from "react-icons/fa";
-
+import { MdDashboard } from "react-icons/md";
+import { FaUserGraduate, FaUsers, FaBookOpen, FaRegCalendarAlt, FaClipboardList } from "react-icons/fa";
+import { FaBuildingColumns, FaBook, FaTableList } from "react-icons/fa6";
+import { FaUserCog } from "react-icons/fa";
 
 const dashsidedata = [
     {
@@ -12,34 +12,58 @@ const dashsidedata = [
     },
     {
         id: 2,
-        name: 'Hostel',
-        link: '/Dashboard/Hostels',
-        icon: FaSchool
+        name: 'Courses',
+        link: '/Dashboard/Courses',
+        icon: FaBookOpen
+    },
+    {
+        id: 3,
+        name: 'Departments',
+        link: '/Dashboard/Departments',
+        icon: FaBuildingColumns
     },
     {
         id: 4,
-        name: 'Rooms',
-        link: '/Dashboard/Rooms',
-        icon: MdBedroomParent
+        name: 'Semesters',
+        link: '/Dashboard/Semesters',
+        icon: FaRegCalendarAlt
     },
     {
         id: 5,
+        name: 'Subjects',
+        link: '/Dashboard/Subjects',
+        icon: FaBook
+    },
+    {
+        id: 6,
         name: 'Students',
         link: '/Dashboard/Students',
         icon: FaUserGraduate
     },
     {
-        id: 6,
-        name: 'Profile',
-        link: '/Dashboard/Profile',
-        icon: FaUserCog,
+        id: 7,
+        name: 'Exams',
+        link: '/Dashboard/Exams',
+        icon: FaClipboardList
     },
     {
-        id: 7,
+        id: 8,
+        name: 'Results',
+        link: '/Dashboard/Results',
+        icon: FaTableList
+    },
+    {
+        id: 9,
         name: 'Users',
         link: '/Dashboard/Users',
         icon: FaUsers
     },
-]
+    {
+        id: 10,
+        name: 'Profile',
+        link: '/Dashboard/Profile',
+        icon: FaUserCog
+    },
+];
 
-export { dashsidedata }
+export { dashsidedata };
