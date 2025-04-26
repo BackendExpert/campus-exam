@@ -69,7 +69,7 @@ const AllDepts = () => {
                                     <td className="px-4 py-2">{dept.code}</td>
                                     <td className="px-4 py-2">{dept.name}</td>
                                     <td className="px-4 py-2">
-                                        {dept.headOfDepartment || <span className="text-gray-400">Not Assigned</span>}
+                                        {dept.headOfDepartment.username + ' - ' + dept.headOfDepartment.email  || <span className="text-gray-400">Not Assigned</span>}
                                     </td>
                                     <td className={`px-4 py-2 font-semibold ${dept.isActive ? 'text-green-600' : 'text-red-600'}`}>
                                         {dept.isActive ? 'Active' : 'Inactive'}

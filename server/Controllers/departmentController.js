@@ -2,19 +2,19 @@ const Department = require("../Models/Department");
 const User = require('../Models/User');
 
 const DepartmentController = {
-    getallhods: async(req, res) => {
-        try{
-            const gethods = await User.find({ role: 'hod'})
+    getallhods: async (req, res) => {
+        try {
+            const gethods = await User.find({ role: 'hod' })
 
-            return res.json({ Result: gethods})
+            return res.json({ Result: gethods })
         }
-        catch(err){
+        catch (err) {
             console.log(err)
         }
     },
 
-    createDepartment: async(req, res) => {
-        try{
+    createDepartment: async (req, res) => {
+        try {
             const {
                 name,
                 code,
@@ -30,8 +30,8 @@ const DepartmentController = {
                 ]
             })
 
-            if(checkDept){
-                return res.json({ Error: "The Department Already Exists...!"})
+            if (checkDept) {
+                return res.json({ Error: "The Department Already Exists...!" })
             }
 
             const newDept = new Department({
@@ -43,42 +43,42 @@ const DepartmentController = {
 
             const resultDept = await newDept.save()
 
-            if(resultDept){
-                return res.json({ Status: "Success", Message: "Department Created Success"})
+            if (resultDept) {
+                return res.json({ Status: "Success", Message: "Department Created Success" })
             }
-            else{
-                return res.json({ Error : "Internal Server Error while Creating Department"})
+            else {
+                return res.json({ Error: "Internal Server Error while Creating Department" })
             }
         }
-        catch(err){
+        catch (err) {
             console.log(err)
         }
     },
 
-    getalldepts: async(req, res) => {
-        try{
-            const alldepts = await Department.find()
+    getalldepts: async (req, res) => {
+        try {
+            const alldepts = await Department.find().populate('headOfDepartment');
 
             return res.json({ Result: alldepts })
         }
-        catch(err){
+        catch (err) {
             console.log(err)
         }
     },
 
-    getonedept: async(req, res) => {
-        try{
+    getonedept: async (req, res) => {
+        try {
             const id = req.params.id
 
             const deptgetid = await Department.findOne({ code: id })
 
-            if(!deptgetid){
-                return res.json({ Error: "The Department is not Exists"})
+            if (!deptgetid) {
+                return res.json({ Error: "The Department is not Exists" })
             }
 
             return res.json({ Result: deptgetid })
         }
-        catch(err){
+        catch (err) {
             console.log(err)
         }
     }
