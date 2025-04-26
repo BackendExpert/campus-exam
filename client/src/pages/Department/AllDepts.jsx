@@ -1,20 +1,30 @@
-import React, { useState } from 'react';
-
-const mockDepartments = [
-    { code: 'CSE', name: 'Computer Science and Engineering', head: 'Dr. Alice', status: 'Active' },
-    { code: 'EEE', name: 'Electrical and Electronic Engineering', head: 'Dr. Bob', status: 'Active' },
-    { code: 'ME', name: 'Mechanical Engineering', head: 'Dr. Carol', status: 'Inactive' },
-    // Add more mock data here
-];
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 const AllDepts = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
+    const token = localStorage.getItem('login');
+    const [deptdata, setDeptData] = useState([]);
 
-    const filtered = mockDepartments.filter(dept =>
-        dept.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        dept.code.toLowerCase().includes(searchTerm.toLowerCase())
+    useEffect(() => {
+        const fetchDepartments = async () => {
+            try {
+                const res = await axios.get(import.meta.env.VITE_APP_API + '/department/getdeparments', {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                });
+                setDeptData(res.data.Result);
+            } catch (err) {
+                console.error('Failed to fetch departments:', err);
+            }
+        };
+        fetchDepartments();
+    }, [token]);
+
+    const filtered = deptdata.filter(dept =>
+        dept.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        dept.code?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const paginated = filtered.slice(
@@ -54,39 +64,48 @@ const AllDepts = () => {
                     <tbody>
                         {paginated.length > 0 ? (
                             paginated.map((dept, index) => (
-                                <tr key={index} className="hover:bg-gray-100">
+                                <tr key={dept._id || index} className="hover:bg-gray-100">
                                     <td className="px-4 py-2">{(currentPage - 1) * itemsPerPage + index + 1}</td>
                                     <td className="px-4 py-2">{dept.code}</td>
                                     <td className="px-4 py-2">{dept.name}</td>
-                                    <td className="px-4 py-2">{dept.head}</td>
-                                    <td className={`px-4 py-2 font-semibold ${dept.status === 'Active' ? 'text-green-600' : 'text-red-600'}`}>
-                                        {dept.status}
+                                    <td className="px-4 py-2">
+                                        {dept.headOfDepartment || <span className="text-gray-400">Not Assigned</span>}
                                     </td>
-                                    <td className={`px-4 py-2 font-semibold ${dept.status === 'Active' ? 'text-green-600' : 'text-red-600'}`}>
-                                        <a href="" className='text-blue-600 duration-500 hover:underline'>View</a>
+                                    <td className={`px-4 py-2 font-semibold ${dept.isActive ? 'text-green-600' : 'text-red-600'}`}>
+                                        {dept.isActive ? 'Active' : 'Inactive'}
+                                    </td>
+                                    <td className="px-4 py-2">
+                                        <button
+                                            className="text-blue-600 hover:underline"
+                                            onClick={() => alert(`View department: ${dept.name}`)}
+                                        >
+                                            View
+                                        </button>
                                     </td>
                                 </tr>
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="5" className="text-center py-4 text-gray-500">No departments found</td>
+                                <td colSpan="6" className="text-center py-4 text-gray-500">No departments found</td>
                             </tr>
                         )}
                     </tbody>
                 </table>
             </div>
 
-            <div className="flex justify-center mt-4 space-x-2">
-                {Array.from({ length: totalPages }, (_, i) => (
-                    <button
-                        key={i}
-                        className={`px-3 py-1 border rounded ${currentPage === i + 1 ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-blue-100'}`}
-                        onClick={() => setCurrentPage(i + 1)}
-                    >
-                        {i + 1}
-                    </button>
-                ))}
-            </div>
+            {totalPages > 1 && (
+                <div className="flex justify-center mt-4 space-x-2">
+                    {Array.from({ length: totalPages }, (_, i) => (
+                        <button
+                            key={i}
+                            className={`px-3 py-1 border rounded ${currentPage === i + 1 ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-blue-100'}`}
+                            onClick={() => setCurrentPage(i + 1)}
+                        >
+                            {i + 1}
+                        </button>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
