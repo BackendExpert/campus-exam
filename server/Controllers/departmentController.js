@@ -1,6 +1,18 @@
 const Department = require("../Models/Department");
+const User = require('../Models/User');
 
 const DepartmentController = {
+    getallhods: async(req, res) => {
+        try{
+            const gethods = await User.find({ role: 'hod'})
+
+            return res.json({ Result: gethods})
+        }
+        catch(err){
+            console.log(err)
+        }
+    },
+
     createDepartment: async(req, res) => {
         try{
             const {

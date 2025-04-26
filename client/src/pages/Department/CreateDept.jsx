@@ -10,6 +10,7 @@ const CreateDept = () => {
     const username = secureLocalStorage.getItem('loginU')
     const role = secureLocalStorage.getItem('loginR')
     const email = secureLocalStorage.getItem('loginE')
+    const token = localStorage.getItem('login')
 
     const [deptdata, setdeptdata] = useState({
         name: '',
@@ -26,9 +27,27 @@ const CreateDept = () => {
         }));
     };
 
+    const [gethods, setgethods] = useState([])
+
+    useEffect(() => {
+        axios.get(import.meta.env.VITE_APP_API + '/department/gethods', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+        .then(res => setgethods(res.data.Result))
+        .catch(err => console.log(err))
+    }, [])
+
     const headleCreateDept = async (e) => {
+        e.preventDefault()
         try {
-            const res = await axios.post(import.meta.env.VITE_APP_API + '/department/createDepartment', deptdata)
+            // console.log(deptdata)
+            const res = await axios.post(import.meta.env.VITE_APP_API + '/department/createDepartment', deptdata, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            })
                 .then(res => {
                     if (res.data.Status === "Success") {
                         alert(res.data.Message)
@@ -86,11 +105,12 @@ const CreateDept = () => {
                             <Dropdown
                                 label="Select Head of Department"
                                 name="headOfDepartment"
+                                onChange={handleInputChange}
                                 options={[
-                                    { value: "", label: "Select Faculty" },
-                                    { value: "arts", label: "Faculty of Arts" },
-                                    { value: "science", label: "Faculty of Science" },
-                                    { value: "eng", label: "Faculty of Engineering" },
+                                    ...gethods.map(hod => ({
+                                        value: hod._id,   
+                                        label: hod.username + ' - ' + hod.email   
+                                    }))
                                 ]}
                             />
                         </div>
