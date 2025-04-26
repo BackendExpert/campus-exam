@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FaBuildingColumns, FaPlus } from 'react-icons/fa6'
 import AllDepts from './AllDepts'
+import CreateDept from './CreateDept'
 
 const Departments = () => {
     const [btnclick, setbtnclick] = useState('alldepts')
@@ -70,7 +71,9 @@ const Departments = () => {
                         }
                         else if(btnclick === "createnewdept"){
                             return (
-                                <div className="">cerate new dpe</div>
+                                <div className="">
+                                    <CreateDept /> 
+                                </div>
                             )
                         }
                     })()
