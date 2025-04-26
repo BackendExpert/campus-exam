@@ -1,20 +1,43 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaBuildingColumns, FaPlus } from 'react-icons/fa6'
 import AllDepts from './AllDepts'
 import CreateDept from './CreateDept'
+import secureLocalStorage from 'react-secure-storage'
+import axios from 'axios'
+
 
 const Departments = () => {
+    const [getalldepts, setgetalldepts] = useState({})
     const [btnclick, setbtnclick] = useState('alldepts')
+    const username = secureLocalStorage.getItem('loginU')
+    const role = secureLocalStorage.getItem('loginR')
+    const email = secureLocalStorage.getItem('loginE')
+    const token = localStorage.getItem('login')
+
 
     const headleclickvalue = (value) => {
         setbtnclick(value)
     }
 
+    useEffect(() => {
+        const fetchDepartments = async () => {
+            try {
+                const res = await axios.get(import.meta.env.VITE_APP_API + '/department/getdeparments', {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                });
+                setgetalldepts(res.data.Result);
+            } catch (err) {
+                console.error('Failed to fetch departments:', err);
+            }
+        };
+        fetchDepartments();
+    }, [token]);
+
     const deptdata = [
         {
             id: 1,
             name: "All Departments",
-            value: 6,
+            value: getalldepts.length,
             icon: <FaBuildingColumns className="text-white text-3xl" />,
             bg: 'bg-gradient-to-r from-green-400 to-emerald-600',
             btnvalue: 'alldepts'
@@ -62,17 +85,17 @@ const Departments = () => {
             <div className="mt-8">
                 {
                     (() => {
-                        if(btnclick === "alldepts"){
+                        if (btnclick === "alldepts") {
                             return (
                                 <div className="">
                                     <AllDepts />
                                 </div>
                             )
                         }
-                        else if(btnclick === "createnewdept"){
+                        else if (btnclick === "createnewdept") {
                             return (
                                 <div className="">
-                                    <CreateDept /> 
+                                    <CreateDept />
                                 </div>
                             )
                         }
