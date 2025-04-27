@@ -69,18 +69,20 @@ const AllDepts = () => {
                                     <td className="px-4 py-2">{dept.code}</td>
                                     <td className="px-4 py-2">{dept.name}</td>
                                     <td className="px-4 py-2">
-                                        {dept.headOfDepartment.username + ' - ' + dept.headOfDepartment.email  || <span className="text-gray-400">Not Assigned</span>}
+                                        {dept.headOfDepartment.username + ' - ' + dept.headOfDepartment.email || <span className="text-gray-400">Not Assigned</span>}
                                     </td>
                                     <td className={`px-4 py-2 font-semibold ${dept.isActive ? 'text-green-600' : 'text-red-600'}`}>
                                         {dept.isActive ? 'Active' : 'Inactive'}
                                     </td>
                                     <td className="px-4 py-2">
-                                        <button
-                                            className="text-blue-600 hover:underline"
-                                            onClick={() => alert(`View department: ${dept.name}`)}
-                                        >
-                                            View
-                                        </button>
+                                        <a href={`/Dashboard/ViewDepartment/${dept._id}`}>
+                                            <button
+                                                className="text-blue-600 hover:underline"                                                
+                                            >
+                                                View
+                                            </button>
+                                        </a>
+
                                     </td>
                                 </tr>
                             ))
