@@ -9,5 +9,7 @@ router.get('/gethods', authMiddleware, accessMiddleware(['superadmin']), Departm
 router.post('/createDepartment', authMiddleware, accessMiddleware(['superadmin']), DepartmentController.createDepartment)
 router.get('/getdeparments', authMiddleware, accessMiddleware(['examadmin', 'superadmin']), DepartmentController.getalldepts)
 router.get('/getonedepartment/:id', authMiddleware, accessMiddleware(['hod', 'examadmin', 'superadmin', 'lecturer']), DepartmentController.getonedept)
+router.put('/updatedept/:id', authMiddleware, accessMiddleware(['superadmin']), DepartmentController.updatedept)
+
 
 module.exports = router;

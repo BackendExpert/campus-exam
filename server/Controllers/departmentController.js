@@ -50,13 +50,13 @@ const DepartmentController = {
                     { new: true }
                 );
 
-                if(updatelec){
+                if (updatelec) {
                     return res.json({ Status: "Success", Message: "Department Created Success" })
                 }
-                else{
-                    return res.json({ Error: "Error While Creating Department"})
+                else {
+                    return res.json({ Error: "Error While Creating Department" })
                 }
-                
+
             }
             else {
                 return res.json({ Error: "Internal Server Error while Creating Department" })
@@ -89,6 +89,51 @@ const DepartmentController = {
             }
 
             return res.json({ Result: deptgetid })
+        }
+        catch (err) {
+            console.log(err)
+        }
+    },
+
+    updatedept: async (req, res) => {
+        try {
+            const id = req.params.id
+
+            const checkdept = await Department.findOne({ _id: id })
+
+            if (checkdept) {
+                return res.json({ Error: "Department Connot find..." })
+            }
+
+            const {
+                name,
+                description,
+                headOfDepartment
+            } = req.body
+
+            if (!name && !description && !headOfDepartment) {
+                return res.json({ Error: "At least one input field must have a value." });
+            }
+
+            const updateFields = {};
+
+            if (name) updateFields.name = name;
+            if (description) updateFields.description = description;
+            if (headOfDepartment) updateFields.headOfDepartment = headOfDepartment;
+
+            const updatedDept = await Department.findByIdAndUpdate(
+                id,
+                { $set: updateFields },
+                { new: true }
+            );
+
+            if(updatedDept) {
+                return res.json({ Status: "Success", Message: "Department Updated Success"})
+            }
+            else{
+                return res.json({ Error: "Internal Server Error While Updating Department"})
+            }
+
         }
         catch (err) {
             console.log(err)
