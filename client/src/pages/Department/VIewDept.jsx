@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import secureLocalStorage from 'react-secure-storage'
 import DefultButton from '../../components/Buttons/DefultButton';
+import UpdateDept from './UpdateDept';
 
 const ViewDept = () => {
     const { id } = useParams();
@@ -53,6 +54,10 @@ const ViewDept = () => {
                             <td>{viewdept.headOfDepartment?.username} - {viewdept.headOfDepartment?.email}</td>
                         </tr>
                     </table>
+                </div>
+
+                <div className="mt-4">
+                    <UpdateDept deptID={id} />
                 </div>
             </div>
         )
