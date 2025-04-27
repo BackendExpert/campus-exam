@@ -50,6 +50,10 @@ const ViewDept = () => {
                             <td>{viewdept.name}</td>
                         </tr>
                         <tr className='h-12 border-b border-gray-200'>
+                            <td className='font-semibold'>Department Description</td>
+                            <td>{viewdept.description}</td>
+                        </tr>
+                        <tr className='h-12 border-b border-gray-200'>
                             <td className='font-semibold'>Department Head</td>
                             <td>{viewdept.headOfDepartment?.username} - {viewdept.headOfDepartment?.email}</td>
                         </tr>
