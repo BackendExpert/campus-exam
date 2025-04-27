@@ -4,7 +4,7 @@ const User = require('../Models/User');
 const DepartmentController = {
     getallhods: async (req, res) => {
         try {
-            const gethods = await User.find({ role: 'hod' })
+            const gethods = await User.find({ role: 'lecturer' })
 
             return res.json({ Result: gethods })
         }
@@ -44,7 +44,19 @@ const DepartmentController = {
             const resultDept = await newDept.save()
 
             if (resultDept) {
-                return res.json({ Status: "Success", Message: "Department Created Success" })
+                const updatelec = await User.findOneAndUpdate(
+                    { _id: headOfDepartment },
+                    { $set: { role: 'hod' } },
+                    { new: true }
+                );
+
+                if(updatelec){
+                    return res.json({ Status: "Success", Message: "Department Created Success" })
+                }
+                else{
+                    return res.json({ Error: "Error While Creating Department"})
+                }
+                
             }
             else {
                 return res.json({ Error: "Internal Server Error while Creating Department" })
