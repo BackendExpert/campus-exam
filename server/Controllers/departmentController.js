@@ -1,0 +1,144 @@
+const Department = require("../Models/Department");
+const User = require('../Models/User');
+
+const DepartmentController = {
+    getallhods: async (req, res) => {
+        try {
+            const gethods = await User.find({ role: 'lecturer' })
+
+            return res.json({ Result: gethods })
+        }
+        catch (err) {
+            console.log(err)
+        }
+    },
+
+    createDepartment: async (req, res) => {
+        try {
+            const {
+                name,
+                code,
+                description,
+                headOfDepartment
+            } = req.body
+
+
+            const checkDept = await Department.findOne({
+                $or: [
+                    { name: name },
+                    { code: code }
+                ]
+            })
+
+            if (checkDept) {
+                return res.json({ Error: "The Department Already Exists...!" })
+            }
+
+            const newDept = new Department({
+                name: name,
+                code: code,
+                description: description,
+                headOfDepartment: headOfDepartment
+            })
+
+            const resultDept = await newDept.save()
+
+            if (resultDept) {
+                const updatelec = await User.findOneAndUpdate(
+                    { _id: headOfDepartment },
+                    { $set: { role: 'hod' } },
+                    { new: true }
+                );
+
+                if (updatelec) {
+                    return res.json({ Status: "Success", Message: "Department Created Success" })
+                }
+                else {
+                    return res.json({ Error: "Error While Creating Department" })
+                }
+
+            }
+            else {
+                return res.json({ Error: "Internal Server Error while Creating Department" })
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
+    },
+
+    getalldepts: async (req, res) => {
+        try {
+            const alldepts = await Department.find().populate('headOfDepartment');
+
+            return res.json({ Result: alldepts })
+        }
+        catch (err) {
+            console.log(err)
+        }
+    },
+
+    getonedept: async (req, res) => {
+        try {
+            const id = req.params.id
+
+            const deptgetid = await Department.findOne({ _id: id }).populate('headOfDepartment')
+
+            if (!deptgetid) {
+                return res.json({ Error: "The Department is not Exists" })
+            }
+
+            return res.json({ Result: deptgetid })
+        }
+        catch (err) {
+            console.log(err)
+        }
+    },
+
+    updatedept: async (req, res) => {
+        try {
+            const id = req.params.id
+
+            const checkdept = await Department.findOne({ _id: id })
+
+            if (!checkdept) {
+                return res.json({ Error: "Department Cannot find..." })
+            }
+
+            const {
+                name,
+                description,
+                headOfDepartment
+            } = req.body
+
+            if (!name && !description && !headOfDepartment) {
+                return res.json({ Error: "At least one input field must have a value." });
+            }
+
+            const updateFields = {};
+
+            if (name) updateFields.name = name;
+            if (description) updateFields.description = description;
+            if (headOfDepartment) updateFields.headOfDepartment = headOfDepartment;
+
+            const updatedDept = await Department.findByIdAndUpdate(
+                id,
+                { $set: updateFields },
+                { new: true }
+            );
+
+            if(updatedDept) {
+                return res.json({ Status: "Success", Message: "Department Updated Success"})
+            }
+            else{
+                return res.json({ Error: "Internal Server Error While Updating Department"})
+            }
+
+        }
+        catch (err) {
+            console.log(err)
+        }
+    }
+};
+
+module.exports = DepartmentController;

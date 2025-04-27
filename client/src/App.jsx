@@ -9,6 +9,8 @@ import SignIn from './pages/Auth/SignIn'
 import PrivateRoute from './components/Auth/PrivateRoute'
 import DashHome from './components/Dashboard/DashHome'
 import HomeDash from './pages/Dashboard/HomeDash'
+import Departments from './pages/Department/Departments'
+import ViewDept from './pages/Department/VIewDept'
 
 function App() {
 
@@ -20,6 +22,8 @@ function App() {
 
                 <Route path='/Dashboard/' element={<PrivateRoute element={<DashHome /> } /> }>
                     <Route path='Home' element={<PrivateRoute element={<HomeDash /> } /> } />
+                    <Route path='Departments' element={<PrivateRoute element={<Departments /> } /> } />
+                    <Route path='ViewDepartment/:id' element={<PrivateRoute element={<ViewDept /> } /> } />
                 </Route>          
             </Routes>
         </BrowserRouter>
