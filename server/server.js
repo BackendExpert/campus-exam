@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const ConnectDB = require('./Config/DB')
 const authRoute = require('./Routes/authRoute')
 const departmentRoute = require('./Routes/departmentRoute')
+const subjectRoute = require('./Routes/subjectRoute')
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -25,6 +26,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/auth', authRoute)
 app.use('/department', departmentRoute)
+app.use('/subject', subjectRoute)
 
 app.get('/', (req, res) => {
     res.send(`Server running on port ${PORT}`);

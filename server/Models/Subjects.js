@@ -19,11 +19,7 @@ const subjectSchema = new mongoose.Schema({
         default: '',
         trim: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
-});
+}, {timestamps: true });
 
 const Subject = mongoose.model('Subject', subjectSchema);
 
