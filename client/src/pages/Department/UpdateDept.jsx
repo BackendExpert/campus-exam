@@ -45,7 +45,7 @@ const UpdateDept = ({ deptID }) => {
     const headleDeptUpdate = async (e) => {
         e.preventDefault()
         try {
-            axios.post(import.meta.env.VITE_APP_API + '/department/updatedept/' + deptID, {
+            axios.put(import.meta.env.VITE_APP_API + '/department/updatedept/' + deptID, updatedatadept, {
                 headers: { 'Authorization': `Bearer ${token}` },
             })
                 .then(res => {

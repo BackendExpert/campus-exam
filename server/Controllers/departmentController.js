@@ -101,8 +101,8 @@ const DepartmentController = {
 
             const checkdept = await Department.findOne({ _id: id })
 
-            if (checkdept) {
-                return res.json({ Error: "Department Connot find..." })
+            if (!checkdept) {
+                return res.json({ Error: "Department Cannot find..." })
             }
 
             const {
