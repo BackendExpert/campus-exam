@@ -64,7 +64,7 @@ const AllDepts = () => {
                     <tbody>
                         {paginated.length > 0 ? (
                             paginated.map((dept, index) => (
-                                <tr key={dept._id || index} className="hover:bg-gray-100">
+                                <tr key={dept._id || index} className="hover:bg-gray-100 h-12">
                                     <td className="px-4 py-2">{(currentPage - 1) * itemsPerPage + index + 1}</td>
                                     <td className="px-4 py-2">{dept.code}</td>
                                     <td className="px-4 py-2">{dept.name}</td>

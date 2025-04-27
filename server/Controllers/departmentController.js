@@ -82,7 +82,7 @@ const DepartmentController = {
         try {
             const id = req.params.id
 
-            const deptgetid = await Department.findOne({ _id: id })
+            const deptgetid = await Department.findOne({ _id: id }).populate('headOfDepartment')
 
             if (!deptgetid) {
                 return res.json({ Error: "The Department is not Exists" })
